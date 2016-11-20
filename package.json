@@ -1,0 +1,26 @@
+{
+  "name": "loader",
+  "version": "1.0.0",
+  "description": "[Demo](https://jphamilton.github.io/canvas-loader-concept/)",
+  "main": "loader.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jphamilton/canvas-loader-concept.git"
+  },
+  "author": "J.P. Hamilton",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jphamilton/canvas-loader-concept/issues"
+  },
+  "homepage": "https://github.com/jphamilton/canvas-loader-concept#readme",
+  "devDependencies": {
+    "ts-loader": "^1.2.2",
+    "typescript": "^2.0.6",
+    "webpack": "^1.13.3"
+  }
+}
