@@ -26,29 +26,32 @@ function init() {
     fontSize = width * fontRatio;
     points = [];
     numPoints = Math.floor(width / 10) + Math.floor(height / 5);
-    
+
     grad = ctx.createLinearGradient(0, 0, width, height);
     grad.addColorStop(.0, '#010C50');
     grad.addColorStop(.3, '#000732');
     grad.addColorStop(1, '#000000');
 
     for(i = 0; i < numPoints; i++) {
-        var lineWidth = between(1, 10);
-        
-        points.push({
-            x:Math.random() * width,
-            y:Math.random() * height,
-            vx:Math.random() * 5 - 2,
-            vy:Math.random() * 5 - 2,
-            color: {
-                r: between(1, 150),
-                g: between(1, 80),
-                b: between(200, 255)
-            },
-            lineWidth: lineWidth
-        });
+        createPoint();
     }
 
+}
+
+function createPoint() {
+    var p = {
+        x:Math.random() * width,
+        y:Math.random() * height,
+        vx:Math.random() * 5 - 2,
+        vy:Math.random() * 5 - 2,
+        color: {
+            r: between(1, 150),
+            g: between(1, 80),
+            b: between(200, 255)
+        },
+        lineWidth: between(1, 10)
+    };
+    points.push(p);
 }
 
 function between(x, y) {
@@ -85,6 +88,7 @@ function link(p1, p2) {
             drawLine(p1, p2, 'rgba('+ p1.color.r  + ',' + p1.color.g + ',' + p1.color.b + ',' + alpha +')', p1.lineWidth);     
         }
     }
+    
 }
 
 function drawLine(p1, p2, strokeStyle, width) {
@@ -106,7 +110,16 @@ function drawRect(p1, p2, fillStyle) {
 }
 
 function drawPoint(p) {
-    drawRect(p, { x: 2, y: 2 }, 'rgb('+ p.color.r  + ',' + p.color.g + ',' + p.color.b +')');
+    drawRect(p, { x: 2, y: 2 }, 'rgba('+ p.color.r  + ',' + p.color.g + ',' + p.color.b + ',' + (p.color.a || 1) +')');
+    
+    if (p.life) {
+        p.life--;
+    }
+
+    if (p.life <= 0) {
+        points.splice(p.index, 1);
+        numPoints--;
+    }
 }
 
 function drawTitle(text, font) {
@@ -123,13 +136,7 @@ function drawBackground() {
     drawRect({ x: 0, y: 0}, { x: width, y: height }, grad);
 }
 
-function frame() {
-    var p1, p2;
-    
-    ctx.clearRect(0, 0, width, height);
-    
-    drawBackground();
-
+function drawPoints() {
     for(var i = 0; i < numPoints; i++) {
         p1 = points[i];
         move(p1);
@@ -140,6 +147,16 @@ function frame() {
             link(p1, p2);
         }
     }
+}
+
+function frame() {
+    var p1, p2;
+    
+    ctx.clearRect(0, 0, width, height);
+    
+    drawBackground();
+
+    drawPoints();
 
     drawTitle('loader', 'Roboto');
 
