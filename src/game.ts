@@ -1,3 +1,22 @@
+export interface GameContext {
+    canvas: HTMLCanvasElement;
+    ctx: CanvasRenderingContext2D; 
+    width: number;         
+    height: number; 
+    centerX: number; 
+    centerY: number;
+    lastTime?: number;
+    currentTime?: number;
+    delta?: number;
+    fps: number;
+    interval: number;
+}
+
+export interface Game {
+    init: (gc: GameContext) => void;
+    render: () => void;
+}
+
 export const game = (game: Game) => {
     let gc: GameContext;
     const canvas: HTMLCanvasElement = document.getElementById('canvas') as HTMLCanvasElement;

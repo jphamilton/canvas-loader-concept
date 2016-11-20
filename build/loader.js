@@ -46,18 +46,18 @@
 
 	"use strict";
 	var game_1 = __webpack_require__(1);
+	var draw_1 = __webpack_require__(2);
 	function between(x, y) {
 	    return Math.floor(Math.random() * y) + x;
 	}
 	var Loader = (function () {
 	    function Loader() {
-	        this.linkDistance = 150;
-	        this.opacity = .4;
 	        this.points = [];
 	    }
 	    Loader.prototype.init = function (gc) {
 	        this.gc = gc;
 	        var width = gc.width, height = gc.height, ctx = gc.ctx;
+	        this.draw = new draw_1.Draw(ctx);
 	        this.numPoints = Math.floor(width / 10) + Math.floor(height / 5);
 	        this.grad = ctx.createLinearGradient(0, 0, width, height);
 	        this.grad.addColorStop(.0, '#010C50');
@@ -101,35 +101,18 @@
 	        }
 	    };
 	    Loader.prototype.link = function (p1, p2) {
-	        var dx = p1.x - p2.x, dy = p1.y - p2.y, dist = Math.sqrt(dx * dx + dy * dy), alpha;
-	        if (dist <= this.linkDistance) {
-	            alpha = this.opacity - (dist / (1 / this.opacity)) / this.linkDistance;
+	        var dx = p1.x - p2.x;
+	        var dy = p1.y - p2.y;
+	        var dist = Math.sqrt(dx * dx + dy * dy);
+	        var opacity = .4;
+	        var linkDistance = 150;
+	        if (dist <= linkDistance) {
+	            var alpha = opacity - (dist / (1 / opacity)) / linkDistance;
 	            if (alpha > 0) {
-	                this.drawLine(p1, p2, 'rgba(' + p1.color.r + ',' + p1.color.g + ',' + p1.color.b + ',' + alpha + ')', p1.lineWidth);
+	                var strokeStyle = "rgba(" + p1.color.r + "," + p1.color.g + "," + p1.color.b + "," + alpha + ")";
+	                this.draw.line(p1, p2, strokeStyle, p1.lineWidth);
 	            }
 	        }
-	    };
-	    Loader.prototype.drawLine = function (p1, p2, strokeStyle, width) {
-	        var ctx = this.gc.ctx;
-	        ctx.beginPath();
-	        ctx.strokeStyle = strokeStyle;
-	        ctx.lineWidth = width;
-	        ctx.moveTo(p1.x, p1.y);
-	        ctx.lineTo(p2.x, p2.y);
-	        ctx.stroke();
-	        ctx.closePath();
-	    };
-	    Loader.prototype.drawRect = function (p1, p2, fillStyle) {
-	        var ctx = this.gc.ctx;
-	        ctx.beginPath();
-	        ctx.fillStyle = fillStyle;
-	        ctx.fillRect(p1.x, p1.y, p2.x, p2.y);
-	        ctx.stroke();
-	        ctx.closePath();
-	    };
-	    Loader.prototype.drawPoint = function (p) {
-	        var fillStyle = "rgba('" + p.color.r + "', '" + p.color.g + "', '', '" + p.color.b + "', '" + (p.color.a || 1) + "')";
-	        this.drawRect(p, { x: 2, y: 2 }, fillStyle);
 	    };
 	    Loader.prototype.drawTitle = function (text, font) {
 	        var _a = this.gc, ctx = _a.ctx, centerX = _a.centerX, centerY = _a.centerY;
@@ -137,18 +120,18 @@
 	        ctx.textAlign = 'center';
 	        ctx.textBaseline = 'middle';
 	        ctx.lineWidth = 1;
-	        ctx.strokeStyle = 'rgba(' + 255 + ',' + 255 + ',' + 255 + ',' + .6 + ')';
+	        ctx.strokeStyle = 'rgba(255,255,255,.6)';
 	        ctx.strokeText(text, centerX, centerY - 50);
 	    };
 	    Loader.prototype.drawBackground = function () {
 	        var _a = this.gc, width = _a.width, height = _a.height;
-	        this.drawRect({ x: 0, y: 0 }, { x: width, y: height }, this.grad);
+	        this.draw.rect({ x: 0, y: 0 }, { x: width, y: height }, this.grad);
 	    };
 	    Loader.prototype.drawPoints = function () {
 	        var _this = this;
 	        this.points.forEach(function (p1, i) {
 	            _this.move(p1);
-	            _this.drawPoint(p1);
+	            _this.draw.point(p1);
 	            for (var j = i + 1; j < _this.numPoints; j++) {
 	                var p2 = _this.points[j];
 	                _this.link(p1, p2);
@@ -211,6 +194,42 @@
 	    init();
 	    loop();
 	};
+
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var Draw = (function () {
+	    function Draw(ctx) {
+	        this.ctx = ctx;
+	    }
+	    Draw.prototype.line = function (p1, p2, strokeStyle, width) {
+	        var ctx = this.ctx;
+	        ctx.beginPath();
+	        ctx.strokeStyle = strokeStyle;
+	        ctx.lineWidth = width;
+	        ctx.moveTo(p1.x, p1.y);
+	        ctx.lineTo(p2.x, p2.y);
+	        ctx.stroke();
+	        ctx.closePath();
+	    };
+	    Draw.prototype.rect = function (p1, p2, fillStyle) {
+	        var ctx = this.ctx;
+	        ctx.beginPath();
+	        ctx.fillStyle = fillStyle;
+	        ctx.fillRect(p1.x, p1.y, p2.x, p2.y);
+	        ctx.stroke();
+	        ctx.closePath();
+	    };
+	    Draw.prototype.point = function (p) {
+	        var fillStyle = "rgba(" + p.color.r + "," + p.color.g + "," + p.color.b + ",1')";
+	        this.rect(p, { x: 2, y: 2 }, fillStyle);
+	    };
+	    return Draw;
+	}());
+	exports.Draw = Draw;
 
 
 /***/ }
