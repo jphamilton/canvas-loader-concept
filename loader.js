@@ -41,8 +41,8 @@ function init() {
             vx:Math.random() * 5 - 2,
             vy:Math.random() * 5 - 2,
             color: {
-                r: between(1, 80),
-                g: between(1, 100),
+                r: between(1, 150),
+                g: between(1, 80),
                 b: between(200, 255)
             },
             lineWidth: lineWidth 
@@ -80,11 +80,18 @@ function link(p1, p2) {
     
     if (dist <= linkDistance) {
         
-        if (dist < 10) {
+        if (dist < 20) {
             var t = p2.color;
             p1.color = p2.color;
             p2.color = p1.color;
+
+            if (dist < 5) {
+                t = p2.lineWidth;
+                p1.lineWidth = p2.lineWidth;
+                p2.lineWidth = t;
+            }
         }
+        
         
         alpha = opacity - (dist / (1 / opacity)) / linkDistance;
 
