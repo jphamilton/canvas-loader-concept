@@ -45,7 +45,7 @@ function init() {
                 g: between(1, 80),
                 b: between(200, 255)
             },
-            lineWidth: lineWidth 
+            lineWidth: lineWidth
         });
     }
 
@@ -79,19 +79,6 @@ function link(p1, p2) {
         alpha;
     
     if (dist <= linkDistance) {
-        
-        if (dist < 20) {
-            var t = p2.color;
-            p1.color = p2.color;
-            p2.color = p1.color;
-
-            if (dist < 5) {
-                t = p2.lineWidth;
-                p1.lineWidth = p2.lineWidth;
-                p2.lineWidth = t;
-            }
-        }
-        
         alpha = opacity - (dist / (1 / opacity)) / linkDistance;
 
         if (alpha > 0) {   
@@ -127,10 +114,8 @@ function drawTitle(text, font) {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.lineWidth = 1;
-    //ctx.fillStyle = '#ffffff';
     ctx.strokeStyle = 'rgba('+ 255  + ',' + 255 + ',' + 255 + ',' + .6 +')';
     ctx.strokeText(text, width2, height2 - 50);
-    
 }
 
 
@@ -157,6 +142,7 @@ function frame() {
     }
 
     drawTitle('loader', 'Roboto');
+
 }
 
 init();
