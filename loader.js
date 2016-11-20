@@ -169,10 +169,10 @@ setInterval(function() {
 }, 1000 / 24);
 
 window.addEventListener('resize', function() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    width = canvas.width;
-    height = canvas.height;
+    // canvas.width = window.innerWidth;
+    // canvas.height = window.innerHeight;
+    // width = canvas.width;
+    // height = canvas.height;
     init();
 });
 
