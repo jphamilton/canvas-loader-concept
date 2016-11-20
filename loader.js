@@ -92,7 +92,6 @@ function link(p1, p2) {
             }
         }
         
-        
         alpha = opacity - (dist / (1 / opacity)) / linkDistance;
 
         if (alpha > 0) {   
@@ -127,8 +126,11 @@ function drawTitle(text, font) {
     ctx.font = fontSize + 'pt ' + font;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText(text, width2, height2 - 50);
+    ctx.lineWidth = 1;
+    //ctx.fillStyle = '#ffffff';
+    ctx.strokeStyle = 'rgba('+ 255  + ',' + 255 + ',' + 255 + ',' + .6 +')';
+    ctx.strokeText(text, width2, height2 - 50);
+    
 }
 
 
