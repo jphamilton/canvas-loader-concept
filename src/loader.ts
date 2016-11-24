@@ -22,7 +22,8 @@ class Loader implements Game {
         this.draw = new Draw(ctx);
 
         this.numPoints = Math.floor(width / 10) + Math.floor(height / 5);
-
+        this.points = [];
+        
         // background gradient
         this.grad = ctx.createLinearGradient(0, 0, width, height);
         this.grad.addColorStop(.0, '#010C50');

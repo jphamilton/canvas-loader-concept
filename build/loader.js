@@ -59,6 +59,7 @@
 	        var width = gc.width, height = gc.height, ctx = gc.ctx;
 	        this.draw = new draw_1.Draw(ctx);
 	        this.numPoints = Math.floor(width / 10) + Math.floor(height / 5);
+	        this.points = [];
 	        this.grad = ctx.createLinearGradient(0, 0, width, height);
 	        this.grad.addColorStop(.0, '#010C50');
 	        this.grad.addColorStop(.3, '#000732');
@@ -224,7 +225,7 @@
 	        ctx.closePath();
 	    };
 	    Draw.prototype.point = function (p) {
-	        var fillStyle = "rgba(" + p.color.r + "," + p.color.g + "," + p.color.b + ",1')";
+	        var fillStyle = "rgb(" + p.color.r + "," + p.color.g + "," + p.color.b + ")";
 	        this.rect(p, { x: 2, y: 2 }, fillStyle);
 	    };
 	    return Draw;

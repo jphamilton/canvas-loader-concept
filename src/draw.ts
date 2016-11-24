@@ -42,7 +42,7 @@ export class Draw {
     }
 
     point(p: Point) {
-        const fillStyle = `rgba(${p.color.r},${p.color.g},${p.color.b},1')`;
+        const fillStyle = `rgb(${p.color.r},${p.color.g},${p.color.b})`;
         this.rect(p, { x: 2, y: 2 }, fillStyle);
     }
 }
