@@ -19,8 +19,9 @@
   },
   "homepage": "https://github.com/jphamilton/canvas-loader-concept#readme",
   "devDependencies": {
-    "ts-loader": "^2.0.3",
-    "typescript": "^2.3.2",
-    "webpack": "^2.4.1"
+    "ts-loader": "^4.1.0",
+    "typescript": "^2.8.1",
+    "webpack": "^4.4.1",
+    "webpack-cli": "^2.0.13"
   }
 }
